@@ -24,19 +24,12 @@ MAKEFLAGS += --jobs=1
 
 FPPFLAGS := -fpp -Wp,-w
 
-# NESCC systems set HDF5 as the root directory to the HDF5
-# development libraries.
-#HDF5=/apps/hdf5/1.8.14-intel-impi  <-- can compile with this, run with 1 PE, but not >1 PE
-#HDF5=/apps/hdf5/1.8.14-intel
-HDF5=/usrx/local/HDF5/1.8.9/serial
 
-# INC = -I$(HDF5)/include $(shell nf-config --fflags)
-INC = -I$(HDF5)/include
 FFLAGS := -fno-alias -auto -safe-cray-ptr -ftz -assume byterecl -i4 -r8 -nowarn -sox -traceback $(INC)
-FFLAGS_OPT = -O3 -debug minimal -fp-model source -override-limits
+FFLAGS_OPT = -O3 -debug minimal -fp-model source -qoverride-limits
 FFLAGS_DEBUG = -g -O0 -check -check noarg_temp_created -check nopointer -warn -warn noerrors -fpe0 -ftrapuv
 FFLAGS_DEBUG = -g -O0 -traceback 
-FFLAGS_REPRO = -O2 -debug minimal -fp-model source -override-limits
+FFLAGS_REPRO = -O2 -debug minimal -fp-model source -qoverride-limits
 FFLAGS_OPENMP = -openmp
 FFLAGS_VERBOSE = -v -V -what
 
@@ -45,7 +38,6 @@ CFLAGS_OPT = -O2 -debug minimal
 CFLAGS_OPENMP = -openmp
 CFLAGS_DEBUG = -O0 -g -ftrapuv
 
-LDFLAGS := -L$(HDF5)/lib $(shell nf-config --flibs)
 LDFLAGS_OPENMP := -openmp
 LDFLAGS_VERBOSE := -Wl,-V,--verbose,-cref,-M
 
