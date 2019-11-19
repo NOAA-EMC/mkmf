@@ -19,20 +19,11 @@ DEBUG =
 REPRO =
 VERBOSE =
 OPENMP = 
-#OPENMP = Y
 
 MAKEFLAGS += --jobs=1
 
 FPPFLAGS := -fpp -Wp,-w
 
-# NESCC systems set HDF5 as the root directory to the HDF5
-# development libraries.
-#HDF5=/apps/hdf5/1.8.14-intel-impi  <-- can compile with this, run with 1 PE, but not >1 PE
-#HDF5=/apps/hdf5/1.8.14-intel
-HDF5=/usrx/local/HDF5/1.8.9/serial
-
-# INC = -I$(HDF5)/include $(shell nf-config --fflags)
-INC = -I$(HDF5)/include
 FFLAGS := -fno-alias -auto -safe-cray-ptr -ftz -assume byterecl -i4 -r8 -nowarn -sox -traceback $(INC)
 FFLAGS_OPT = -O3 -debug minimal -fp-model source
 #FFLAGS_OPT = -O3 -debug minimal -fp-model source -override-limits
@@ -49,7 +40,7 @@ CFLAGS_OPT = -O2 -debug minimal
 CFLAGS_OPENMP = -qopenmp
 CFLAGS_DEBUG = -O0 -g -ftrapuv
 
-LDFLAGS := -L$(HDF5)/lib $(shell nf-config --flibs)
+LDFLAGS := $(shell nf-config --flibs)
 LDFLAGS_OPENMP := -qopenmp
 LDFLAGS_VERBOSE := -Wl,-V,--verbose,-cref,-M
 
@@ -94,11 +85,8 @@ endif
 
 FFLAGS += -I/usrx/local/prod/packages/ips/18.0.1/netcdf/4.5.0/include
 CFLAGS += -I/usrx/local/prod/packages/ips/18.0.1/netcdf/4.5.0/include
-#FFLAGS += -I/usrx/local/NetCDF/4.2/serial/include
-#CFLAGS += -I/usrx/local/NetCDF/4.2/serial/include
 
 LIBS +=
-LIBS += -lmkl_blas95_lp64 -lmkl_lapack95_lp64 -lmkl_intel_lp64 -lmkl_core -lmkl_sequential
 LDFLAGS += $(LIBS)
 
 #---------------------------------------------------------------------------
